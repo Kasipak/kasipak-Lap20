@@ -167,4 +167,44 @@ void playerLose(){
 	cout << "*                                                     *\n";
 	cout << "*******************************************************\n";
 };
+Equipment::Equipment(int h,int a,int d){
+    hpmax = h;
+    atk = a;
+    def = d;
+}
 
+vector<int> Equipment::getStat(){
+    return {hpmax, atk, def};
+}
+
+
+void Unit::dodge(){
+    dodge_on = true;
+}
+
+int Unit::ultimateAttack(Unit &opp){
+    return opp.beAttacked(atk * 2);
+}
+
+
+void Unit::equip(Equipment *eq){
+    
+    if(equipment != NULL){
+        vector<int> s = equipment->getStat();
+        hpmax -= s[0];
+        atk   -= s[1];
+        def   -= s[2];
+
+        if(hp > hpmax) hp = hpmax;
+    }
+
+    equipment = eq;
+
+    
+    if(eq != NULL){
+        vector<int> s = eq->getStat();
+        hpmax += s[0];
+        atk   += s[1];
+        def   += s[2];
+    }
+}
